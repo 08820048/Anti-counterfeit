@@ -5,201 +5,269 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>产品防伪查询</title>
     <style>
-        .theme-switcher {
-            position: fixed;
-            top: 18px;
-            right: 18px;
-            z-index: 99;
-            width: 44px;
-            height: 44px;
-            background: rgba(36,44,60,0.95);
-            border-radius: 50%;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.16);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.2s;
+        html, body {
+            height: 100%;
         }
-        .theme-switcher:hover {
-            background: #7ec3f7;
-        }
-        .theme-switcher svg {
-            display: block;
-        }
-        /* 深色科技感主题（默认） */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background: #181f2a;
-            color: #fff;
+            background: #f5f6fa;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .header {
-            background: #181f2a;
-            padding: 32px 0 16px 0;
-            text-align: center;
+        .top-bg {
+            position: relative;
+            width: 96vw;
+            max-width: 700px;
+            min-width: 300px;
+            height: auto;
+            margin: 0 auto;
+            z-index: 2;
         }
-        .header-title {
-            font-size: 1.6rem;
+        .top-bg-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 0;
+        }
+        .top-title-box {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            padding-left: 1vw;
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .top-title {
+            color: #fff;
+            font-size: 2rem;
             font-weight: 600;
             margin-bottom: 10px;
+            letter-spacing: 2px;
         }
-        .header-desc {
-            font-size: 1.1rem;
-            color: #7ec3f7;
+        .top-desc {
+            color: #e6eaf3;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
         }
-        .container {
-            background: #232b3e;
-            border-radius: 12px;
-            margin: 24px auto;
-            padding: 28px 20px 24px 20px;
-            max-width: 400px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+        .main-card {
+            width: 96vw;
+            max-width: 700px;
+            min-width: 300px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.13);
+            border-radius: 0;
+            padding: 4vw 3vw 2vw 3vw;
+            box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            box-sizing: border-box;
+            transition: padding 0.2s, width 0.2s;
+            position: relative;
+            top: -4px;
+        }
+        .main-card.no-radius {
+            border-radius: 0;
+        }
+        .main-card-content {
+            padding: 0 0;
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+            box-sizing: border-box;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .code-row {
+            text-align: center;
+            margin-bottom: 12px;
+            margin-left: 0.5vw;
+            margin-right: 0.5vw;
         }
         .code-label {
-            color: #7ec3f7;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+            color: #228be6;
+            font-size: 1.13rem;
         }
         .code-value {
-            font-size: 1.4rem;
+            color: #228be6;
+            font-size: 1.13rem;
+            font-weight: 600;
+            margin-left: 3px;
+            word-break: break-all;
+        }
+        .code-divider {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 4px 0 14px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .warn-text {
+            color: #e53935;
+            font-size: 1.08rem;
+            margin-bottom: 24px;
+            margin-top: 0;
+            text-align: left;
+            line-height: 1.6;
+            margin-left: 0.5vw;
+            margin-right: 0.5vw;
+        }
+        .query-time {
+            color: #888;
+            font-size: 0.98rem;
+            margin-bottom: 24px;
+            margin-top: 18px;
+            text-align: left;
+            margin-left: 0.5vw;
+            margin-right: 0.5vw;
+        }
+        .company-section,
+        .btn-row {
+            width: 100%;
+            box-sizing: border-box;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .company-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            font-size: 1.13rem;
+            color: #228be6;
+            cursor: pointer;
+            margin-top: 2vw;
+            background: hwb(0 92% 8%);
+            padding: 12px 18px;
+            border-radius: 0;
+        }
+        .company-icon {
             font-weight: bold;
-            letter-spacing: 2px;
-            background: #111827;
-            border-radius: 6px;
-            padding: 10px 0;
-            margin-bottom: 10px;
+            margin-right: 0.5vw;
+            font-size: 1em;
+            color: #bbb;
         }
-        .desc {
-            color: #ff6666;
-            margin-bottom: 6px;
+        .btn-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background:hwb(0 92% 8%) ;
+            border-radius: 0;
+            padding: 12px 18px;
+            margin-top: 3vw;
+            color: #222;
+            font-size: 1.12rem;
+            flex-wrap: nowrap;
         }
-        .time {
+        .btn-icon {
+            font-size: 1.25rem;
+            margin-right: 1vw;
+        }
+        .btn-arrow {
             color: #b0b6c5;
-            font-size: 0.97rem;
-            margin-bottom: 12px;
+            font-size: 1.3rem;
+            margin: 0 12px;
         }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100vw;
+        .btn-scan {
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 0 2vw;
+            display: flex;
+            align-items: center;
+        }
+        .scan-icon {
+            font-size: 20px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        .btn-scan-group {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .footer-in-card {
+            width: 100%;
             text-align: center;
             color: #b0b6c5;
             font-size: 0.9rem;
             background: transparent;
-            margin: 0;
+            margin: 3vw 0 0 0;
             padding: 10px 0 8px 0;
-            z-index: 50;
-            pointer-events: none;
         }
-        /* 浅色极简主题 */
-        body.light-theme {
-            background: #f6f8fa;
-            color: #222;
+        .footer {
+            display: none;
         }
-        body.light-theme .header {
-            background: #f6f8fa;
-        }
-        body.light-theme .header-desc {
-            color: #228be6;
-        }
-        body.light-theme .container {
-            background: #fff;
-            color: #222;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.05);
-            border-radius: 20px;
-        }
-        body.light-theme .code-value {
-            background: #f0f4f8;
-            color: #222;
-        }
-        body.light-theme .desc {
-            color: #d7263d;
-        }
-        body.light-theme .footer {
-            color: #888;
-        }
-        /* 蓝色商务风格 */
-        body.blue-theme {
-            background: #e3f0fb;
-            color: #15395b;
-        }
-        body.blue-theme .header {
-            background: #e3f0fb;
-        }
-        body.blue-theme .header-title {
-            color: #228be6;
-        }
-        body.blue-theme .header-desc {
-            color: #228be6;
-        }
-        body.blue-theme .container {
-            background: #fff;
-            color: #15395b;
-            box-shadow: 0 4px 24px rgba(34,139,230,0.08);
-            border-radius: 18px;
-        }
-        body.blue-theme .code-value {
-            background: #d0e5fa;
-            color: #15395b;
-        }
-        body.blue-theme .desc {
-            color: #1971c2;
-        }
-        body.blue-theme .footer {
-            color: #228be6;
-        }
-        /* 绿色自然风格 */
-        body.green-theme {
-            background: #eafaf1;
-            color: #215942;
-        }
-        body.green-theme .header {
-            background: #eafaf1;
-        }
-        body.green-theme .header-title {
-            color: #51cf66;
-        }
-        body.green-theme .header-desc {
-            color: #51cf66;
-        }
-        body.green-theme .container {
-            background: #fff;
-            color: #215942;
-            box-shadow: 0 4px 24px rgba(81,207,102,0.08);
-            border-radius: 18px;
-        }
-        body.green-theme .code-value {
-            background: #d3f9d8;
-            color: #215942;
-        }
-        body.green-theme .desc {
-            color: #37b24d;
-        }
-        body.green-theme .footer {
-            color: #51cf66;
+        @media (max-width: 600px) {
+            .main-card {
+                width: 100vw;
+                min-width: 0;
+                padding: 6vw 2vw 4vw 2vw;
+                top: 0;
+                min-height: unset;
+            }
+            .top-bg {
+                width: 100vw;
+                min-width: 0;
+                max-width: 100vw;
+                height: auto;
+                margin: 0 auto;
+            }
+            .top-bg-img {
+                width: 100vw;
+                height: auto;
+            }
+            .btn-row {
+                flex-wrap: nowrap;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="theme-switcher" id="themeSwitcher" onclick="cycleTheme()" title="切换主题">
-        <span id="themeIcon"></span>
+    <div class="top-bg">
+        <img src="images/code_bg.png" class="top-bg-img" alt="背景图" />
+        <div class="top-title-box">
+            <div class="top-title">防伪中心</div>
+            <div class="top-desc">产品防伪查询</div>
+        </div>
     </div>
-    <div class="header">
-        <div class="header-title">码上科技</div>
-        <div class="header-desc">产品防伪查询</div>
+    <div class="main-card no-radius">
+        <div class="main-card-content">
+            <div class="code-row">
+                <span class="code-label">您查询的防伪码为：</span>
+                <span class="code-value" id="antiFakeCode">生成中...</span>
+            </div>
+            <hr class="code-divider" />
+            <div class="warn-text" id="descText">请核对防伪码，谨防假冒！本次查询为唯一编码。</div>
+            <div class="query-time" id="queryTime"></div>
+            <div class="company-section">
+                <span class="company-icon">|</span>
+                <span class="company-info">公司信息</span>
+            </div>
+            <div class="btn-row">
+                <span class="btn-icon"><img src="images/website.png" alt="网站图标" style="width:22px;height:22px;vertical-align:middle;"></span>
+                <span class="btn-arrow"><img src="images/right.png" alt="右箭头" style="width:22px;height:22px;vertical-align:middle;"></span>
+                <span class="btn-scan-group">
+                    <span class="btn-scan"><img src="images/scan.png" alt="扫描图标" style="width:22px;height:22px;vertical-align:middle;margin-right:4px;"> 继续扫描</span>
+                    <span class="btn-arrow"><img src="images/right.png" alt="右箭头" style="width:22px;height:22px;vertical-align:middle;"></span>
+                </span>
+            </div>
+        </div>
+        <div class="footer-in-card">Copyright 2024</div>
     </div>
-    <div class="container">
-        <div class="code-label">您的防伪码为：</div>
-        <div class="code-value" id="antiFakeCode">生成中...</div>
-        <div class="desc" id="descText"></div>
-        <div style="height: 22px;"></div>
-        <div class="time" id="queryTime"></div>
-    </div>
-    <div class="footer">Copyright 2024</div>
     <script>
         // 生成16位唯一防伪码（纯数字）
         function generateAntiFakeCode() {
@@ -211,57 +279,20 @@
         }
         // 获取当前时间字符串
         function getTimeString() {
-            const now = new Date();
-            const yyyy = now.getFullYear();
-            const MM = (now.getMonth()+1).toString().padStart(2, '0');
-            const dd = now.getDate().toString().padStart(2, '0');
-            const hh = now.getHours().toString().padStart(2, '0');
-            const mm = now.getMinutes().toString().padStart(2, '0');
-            const ss = now.getSeconds().toString().padStart(2, '0');
-            return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`;
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const hour = date.getHours();
+            const minute = date.getMinutes();
+            const second = date.getSeconds();
+            return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
         }
-        // 多主题切换
-        const themes = [
-            {
-                name: 'dark',
-                class: '',
-                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#222'/><path d='M12 3a9 9 0 0 0 0 18a9 9 0 0 1 0-18z' fill='#7ec3f7'/></svg>`
-            },
-            {
-                name: 'light',
-                class: 'light-theme',
-                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#ffe066'/><path d='M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4' stroke='#ffc300' stroke-width='2' fill='none'/></svg>`
-            },
-            {
-                name: 'blue',
-                class: 'blue-theme',
-                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#228be6'/><path d='M7 17c2-5 8-5 10 0' stroke='#fff' stroke-width='2' fill='none'/></svg>`
-            },
-            {
-                name: 'green',
-                class: 'green-theme',
-                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#51cf66'/><path d='M8 14l2 2l4-4' stroke='#fff' stroke-width='2' fill='none'/></svg>`
-            }
-        ];
-        let themeIndex = 0;
-        function cycleTheme() {
-            // 移除所有主题class
-            document.body.classList.remove('light-theme', 'blue-theme', 'green-theme');
-            themeIndex = (themeIndex + 1) % themes.length;
-            const theme = themes[themeIndex];
-            if (theme.class) document.body.classList.add(theme.class);
-            document.getElementById('themeIcon').innerHTML = theme.icon;
-        }
-        // 页面加载时生成并显示防伪码和时间
+        // 页面加载时生成并显示防伪码
         window.onload = function() {
             const code = generateAntiFakeCode();
             document.getElementById('antiFakeCode').textContent = code;
-            document.getElementById('descText').textContent =
-                '请核对防伪码，谨防假冒！本次查询为唯一编码。';
-            document.getElementById('queryTime').textContent =
-                '查询时间：' + getTimeString();
-            // 初始主题图标
-            document.getElementById('themeIcon').innerHTML = themes[0].icon;
+            document.getElementById('queryTime').textContent = '查询时间：' + getTimeString();
         };
     </script>
 </body>
