@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品防伪查询</title>
+    <style>
+        .theme-switcher {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 99;
+            width: 44px;
+            height: 44px;
+            background: rgba(36,44,60,0.95);
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.16);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .theme-switcher:hover {
+            background: #7ec3f7;
+        }
+        .theme-switcher svg {
+            display: block;
+        }
+        /* 深色科技感主题（默认） */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: #181f2a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        .header {
+            background: #181f2a;
+            padding: 32px 0 16px 0;
+            text-align: center;
+        }
+        .header-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .header-desc {
+            font-size: 1.1rem;
+            color: #7ec3f7;
+        }
+        .container {
+            background: #232b3e;
+            border-radius: 12px;
+            margin: 24px auto;
+            padding: 28px 20px 24px 20px;
+            max-width: 400px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+        }
+        .code-label {
+            color: #7ec3f7;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .code-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: #111827;
+            border-radius: 6px;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        .desc {
+            color: #ff6666;
+            margin-bottom: 6px;
+        }
+        .time {
+            color: #b0b6c5;
+            font-size: 0.97rem;
+            margin-bottom: 12px;
+        }
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100vw;
+            text-align: center;
+            color: #b0b6c5;
+            font-size: 0.9rem;
+            background: transparent;
+            margin: 0;
+            padding: 10px 0 8px 0;
+            z-index: 50;
+            pointer-events: none;
+        }
+        /* 浅色极简主题 */
+        body.light-theme {
+            background: #f6f8fa;
+            color: #222;
+        }
+        body.light-theme .header {
+            background: #f6f8fa;
+        }
+        body.light-theme .header-desc {
+            color: #228be6;
+        }
+        body.light-theme .container {
+            background: #fff;
+            color: #222;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+            border-radius: 20px;
+        }
+        body.light-theme .code-value {
+            background: #f0f4f8;
+            color: #222;
+        }
+        body.light-theme .desc {
+            color: #d7263d;
+        }
+        body.light-theme .footer {
+            color: #888;
+        }
+        /* 蓝色商务风格 */
+        body.blue-theme {
+            background: #e3f0fb;
+            color: #15395b;
+        }
+        body.blue-theme .header {
+            background: #e3f0fb;
+        }
+        body.blue-theme .header-title {
+            color: #228be6;
+        }
+        body.blue-theme .header-desc {
+            color: #228be6;
+        }
+        body.blue-theme .container {
+            background: #fff;
+            color: #15395b;
+            box-shadow: 0 4px 24px rgba(34,139,230,0.08);
+            border-radius: 18px;
+        }
+        body.blue-theme .code-value {
+            background: #d0e5fa;
+            color: #15395b;
+        }
+        body.blue-theme .desc {
+            color: #1971c2;
+        }
+        body.blue-theme .footer {
+            color: #228be6;
+        }
+        /* 绿色自然风格 */
+        body.green-theme {
+            background: #eafaf1;
+            color: #215942;
+        }
+        body.green-theme .header {
+            background: #eafaf1;
+        }
+        body.green-theme .header-title {
+            color: #51cf66;
+        }
+        body.green-theme .header-desc {
+            color: #51cf66;
+        }
+        body.green-theme .container {
+            background: #fff;
+            color: #215942;
+            box-shadow: 0 4px 24px rgba(81,207,102,0.08);
+            border-radius: 18px;
+        }
+        body.green-theme .code-value {
+            background: #d3f9d8;
+            color: #215942;
+        }
+        body.green-theme .desc {
+            color: #37b24d;
+        }
+        body.green-theme .footer {
+            color: #51cf66;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-switcher" id="themeSwitcher" onclick="cycleTheme()" title="切换主题">
+        <span id="themeIcon"></span>
+    </div>
+    <div class="header">
+        <div class="header-title">码上科技</div>
+        <div class="header-desc">产品防伪查询</div>
+    </div>
+    <div class="container">
+        <div class="code-label">您的防伪码为：</div>
+        <div class="code-value" id="antiFakeCode">生成中...</div>
+        <div class="desc" id="descText"></div>
+        <div style="height: 22px;"></div>
+        <div class="time" id="queryTime"></div>
+    </div>
+    <div class="footer">Copyright 2024</div>
+    <script>
+        // 生成16位唯一防伪码（纯数字）
+        function generateAntiFakeCode() {
+            let code = '';
+            for (let i = 0; i < 16; i++) {
+                code += Math.floor(Math.random() * 10);
+            }
+            return code;
+        }
+        // 获取当前时间字符串
+        function getTimeString() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const MM = (now.getMonth()+1).toString().padStart(2, '0');
+            const dd = now.getDate().toString().padStart(2, '0');
+            const hh = now.getHours().toString().padStart(2, '0');
+            const mm = now.getMinutes().toString().padStart(2, '0');
+            const ss = now.getSeconds().toString().padStart(2, '0');
+            return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`;
+        }
+        // 多主题切换
+        const themes = [
+            {
+                name: 'dark',
+                class: '',
+                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#222'/><path d='M12 3a9 9 0 0 0 0 18a9 9 0 0 1 0-18z' fill='#7ec3f7'/></svg>`
+            },
+            {
+                name: 'light',
+                class: 'light-theme',
+                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#ffe066'/><path d='M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4' stroke='#ffc300' stroke-width='2' fill='none'/></svg>`
+            },
+            {
+                name: 'blue',
+                class: 'blue-theme',
+                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#228be6'/><path d='M7 17c2-5 8-5 10 0' stroke='#fff' stroke-width='2' fill='none'/></svg>`
+            },
+            {
+                name: 'green',
+                class: 'green-theme',
+                icon: `<svg width='24' height='24' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='#51cf66'/><path d='M8 14l2 2l4-4' stroke='#fff' stroke-width='2' fill='none'/></svg>`
+            }
+        ];
+        let themeIndex = 0;
+        function cycleTheme() {
+            // 移除所有主题class
+            document.body.classList.remove('light-theme', 'blue-theme', 'green-theme');
+            themeIndex = (themeIndex + 1) % themes.length;
+            const theme = themes[themeIndex];
+            if (theme.class) document.body.classList.add(theme.class);
+            document.getElementById('themeIcon').innerHTML = theme.icon;
+        }
+        // 页面加载时生成并显示防伪码和时间
+        window.onload = function() {
+            const code = generateAntiFakeCode();
+            document.getElementById('antiFakeCode').textContent = code;
+            document.getElementById('descText').textContent =
+                '请核对防伪码，谨防假冒！本次查询为唯一编码。';
+            document.getElementById('queryTime').textContent =
+                '查询时间：' + getTimeString();
+            // 初始主题图标
+            document.getElementById('themeIcon').innerHTML = themes[0].icon;
+        };
+    </script>
+</body>
+</html>
