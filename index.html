@@ -76,6 +76,7 @@
             transition: padding 0.2s, width 0.2s;
             position: relative;
             top: -4px;
+            padding-bottom: 64px;
         }
         .main-card.no-radius {
             border-radius: 0;
@@ -202,11 +203,17 @@
         .footer-in-card {
             width: 100%;
             text-align: center;
-            color: #b0b6c5;
-            font-size: 0.9rem;
+            color: #aaa;
+            font-size: 16px;
+            min-height: 48px;
+            margin-top: auto;
             background: transparent;
-            margin: 3vw 0 0 0;
-            padding: 10px 0 8px 0;
+            padding: 24px 0 18px 0;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
         }
         .footer {
             display: none;
